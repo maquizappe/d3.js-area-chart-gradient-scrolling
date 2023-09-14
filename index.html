@@ -190,7 +190,7 @@
                 // Remove the previous "Value" label
                 g.selectAll(".value-label").remove();
                 // Define the initial year and the number of years to display
-                var initialYear = parseTime("2010");
+          /*       var initialYear = parseTime("2010");
                 var yearsToDisplay = currentIndex + 1; // Increase the number of years displayed with each scroll
                 var newData = chartData.slice(0, yearsToDisplay);
                 // Add the "Value" label for the last year shown
@@ -200,26 +200,35 @@
                     newData.length > 0 &&
                     newData[newData.length - 1].value !== 0 &&
                     !isNaN(newData[newData.length - 1].value)
-                ) {
+                ) { */
+
+                    if (currentIndex >= 0 && currentIndex < chartData.length) {
+        var currentData = chartData[currentIndex];
+
+        if (
+            currentData.value !== 0 &&
+            !isNaN(currentData.value)
+        ) {
                     // Add the "Value" label for the last year shown
                     g.append("text")
                         .attr("class", "value-label")
-                        .attr("x", x(newData[newData.length - 1].year) + 10) // Adjust the x-position as needed
-                        .attr("y", y(newData[newData.length - 1].value)) // Use the last data point for the y-position
-                        .text(`Marriages: ${newData[newData.length - 1].value.toLocaleString()}`)
+                        .attr("x", x(currentData.year) + 10) // Adjust the x-position as needed
+                        .attr("y", y(currentData.value)) // Use the last data point for the y-position
+                        .text(`Marriages: ${currentData.value.toLocaleString()}`)
                         .attr("fill", "#3E3E3E")
                         .attr("font-size", "14px");
                 }
 
                 g.append("text")
                     .attr("class", "value-label")
-                    .attr("x", x(newData[newData.length - 1].year) + 10) // Adjust the x-position as needed
-                    .attr("y", y(newData[newData.length - 1].uc)) // Use the last data point for the y-position
-                    .text(`Civil unions: ${newData[newData.length - 1].uc.toLocaleString()}`)
+                    .attr("x", x(currentData.year) + 10) // Adjust the x-position as needed
+                    .attr("y", y(currentData.uc)) // Use the last data point for the y-position
+                    .text(`Civil unions: ${currentData.uc.toLocaleString()}`)
                     .attr("fill", "#3E3E3E")
                     .attr("font-size", "14px");
 
             }
+        }
 
 
             // Function to update the chart data and year
@@ -315,11 +324,11 @@
                     .attr("d", ucArea);
 
             
-                updateValueLabel();
+                    updateValueLabel();
             }
 
             // Add scroll event listener to the document
-            document.addEventListener("mousewheel", function (event) {
+            document.addEventListener("wheel", function (event) {
                 if (event.deltaY > 0) {
                     // Scroll down, advance one year
                     updateChart();
